@@ -12,9 +12,11 @@ $graphite_prefix = "wlan.aruba.";
 
 if ($graphite_send) $fsock = fsockopen($graphite_ip, $graphite_port);
 
+// controller name => IP address
 $controllers = array (
         "aruba-master" => "#.#.#.#",
 );
+// snmp community
 $community = "###";
 $dot11_types = array (
         "INTEGER: 1" => "5ghz",
@@ -200,15 +202,15 @@ foreach ($controllers as $c_name => $ip) {
                 $bytes_essid[$essid . ".tx"] += $bytes_tx;
                 $bytes_essid[$essid . ".rx"] += $bytes_rx;
 
-                if (!isset($bytes_ap[$ap . ".tx.total"])) $bytes_ap[$ap . ".tx.total"] = 0;
-                if (!isset($bytes_ap[$ap . ".rx.total"])) $bytes_ap[$ap . ".rx.total"] = 0;
-                $bytes_ap[$ap . ".tx.total"] += $bytes_tx;
-                $bytes_ap[$ap . ".rx.total"] += $bytes_rx;
+                if (!isset($bytes_ap[$ap . ".total.tx"])) $bytes_ap[$ap . ".total.tx"] = 0;
+                if (!isset($bytes_ap[$ap . ".total.rx"])) $bytes_ap[$ap . ".total.rx"] = 0;
+                $bytes_ap[$ap . ".total.tx"] += $bytes_tx;
+                $bytes_ap[$ap . ".total.rx"] += $bytes_rx;
 
-                if (!isset($bytes_radio[$ap . "." . $radio_type . ".tx.total"])) $bytes_radio[$ap . "." . $radio_type . ".tx.total"] = 0;
-                if (!isset($bytes_radio[$ap . "." . $radio_type . ".rx.total"])) $bytes_radio[$ap . "." . $radio_type . ".rx.total"] = 0;
-                $bytes_radio[$ap . "." . $radio_type . ".tx.total"] += $bytes_tx;
-                $bytes_radio[$ap . "." . $radio_type . ".rx.total"] += $bytes_rx;
+                if (!isset($bytes_radio[$ap . "." . $radio_type . ".total.tx"])) $bytes_radio[$ap . "." . $radio_type . ".total.tx"] = 0;
+                if (!isset($bytes_radio[$ap . "." . $radio_type . ".total.rx"])) $bytes_radio[$ap . "." . $radio_type . ".total.rx"] = 0;
+                $bytes_radio[$ap . "." . $radio_type . ".total.tx"] += $bytes_tx;
+                $bytes_radio[$ap . "." . $radio_type . ".total.rx"] += $bytes_rx;
 
                 if (!isset($bytes_radio_type[$radio_type . ".rx"])) $bytes_radio_type[$radio_type . ".rx"] = 0;
                 if (!isset($bytes_radio_type[$radio_type . ".tx"])) $bytes_radio_type[$radio_type . ".tx"] = 0;
