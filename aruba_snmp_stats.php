@@ -4,71 +4,8 @@
  *
  * @author: Arjan Koopen <arjan@koopen.net>
  */
-<<<<<<< HEAD
 include("common.php");
 include("config.php");
-=======
-
-$graphite_send = true; // set to false if you only want text output (for debugging)
-$graphite_ip = "127.0.0.1";
-$graphite_port = 2003;
-$graphite_prefix = "wlan.aruba.";
-
-if ($graphite_send) $fsock = fsockopen($graphite_ip, $graphite_port);
-
-// controller name => IP address
-$controllers = array (
-        "aruba-master" => "#.#.#.#",
-);
-// snmp community
-$community = "###";
-$dot11_types = array (
-        "INTEGER: 1" => "5ghz",
-        "INTEGER: 2" => "2ghz",
-        "INTEGER: 3" => "2ghz",
-        "INTEGER: 4" => "dualband"
-);
-$snmp_base = 16;        // use 11 if your SNMP resolves OIDs
-
-function sendGraphite($field, $value) {
-        global $graphite_send, $graphite_prefix, $c_name, $fsock;
-
-        $send = $graphite_prefix . $c_name . "." . $field . " " . $value . " " . time() . "\n";
-
-        if ($graphite_send) {
-                 fwrite($fsock, $send, strlen($send));
-        }
-
-        echo $send;
-}
-
-function get_snmp($oid, $type = "Gauge32") {
-        global $ip, $community;
-
-        return $value = sanatize_snmp($type, snmp2_get($ip, $community, $oid));
-}
-
-function sanatize_snmp($type, $value) {
-        switch ($type) {
-                case "Gauge32":
-                        $value = str_replace("Gauge32: ", "", $value);
-                        break;
-
-                case "STRING":
-                        $value = str_replace("\"", "", str_replace("STRING: ", "", $value));
-                        break;
-
-                case "INTEGER":
-                        $value = str_replace("INTEGER: ", "", $value);
-                        break;
-
-                case "Counter64":
-                        $value = str_replace("Counter64: ", "", $value);
-                        break;
-        }
-        return $value;
-}
->>>>>>> FETCH_HEAD
 
 foreach ($controllers as $c_name => $ip) {
 
@@ -209,7 +146,6 @@ foreach ($controllers as $c_name => $ip) {
 
 	foreach ($out as $key => $value) {
                 $tmp = explode(".",$key);
-<<<<<<< HEAD
 		$bssid_key = array();
 		$ap_key = array();
 		$radio_key = array();
@@ -279,77 +215,6 @@ foreach ($controllers as $c_name => $ip) {
 	}
 
 	$bytes_a = array ("bytes_essid" => "essid", "bytes_ap" => "ap", "bytes_radio" => "ap", "bytes_radio_essid" => "ap", "bytes_radio_type" => "band");
-=======
-                $bssid_key = array();
-                $ap_key = array();
-                $radio_key = array();
-                for ($i = $snmp_base; $i < count($tmp); $i++) {
-                        $bssid_key[] = $tmp[$i];
-                        if ($i <= ($snmp_base + 5)) $ap_key[] = $tmp[$i];
-                        if ($i <= ($snmp_base + 6)) $radio_key[] = $tmp[$i];
-                }
-                $bssid_key = implode(".",$bssid_key);
-                $ap_key = implode(".",$ap_key);
-                $radio_key = implode(".",$radio_key);
-
-                $essid = $_bssid_essid[$bssid_key];
-                $ap = $_ap_name[$ap_key];
-                $radio_type = $_radio_type[$radio_key];
-
-                $num = intval(str_replace("INTEGER: ", "", $value));
-
-                if (!isset($assoc_essid[$essid])) $assoc_essid[$essid] = 0;
-                $assoc_essid[$essid] += $num;
-
-                if (!isset($assoc_ap[$ap . ".total"])) $assoc_ap[$ap . ".total"] = 0;
-                $assoc_ap[$ap . ".total"] += $num;
-
-                if (!isset($assoc_radio[$ap . "." . $radio_type . ".total"])) $assoc_radio[$ap . "." . $radio_type . ".total"] = 0;
-                $assoc_radio[$ap . "." . $radio_type . ".total"] += $num;
-
-                if (!isset($assoc_radio_type[$radio_type])) $assoc_radio_type[$radio_type] = 0;
-                $assoc_radio_type[$radio_type] += $num;
-
-                $assoc_radio_essid[$ap . "." . $radio_type . "." . $essid] = $num;
-
-                // get num bytes
-                $bytes_rx = get_snmp("1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.23.{$bssid_key}", "Counter64");
-                $bytes_tx = get_snmp("1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.25.{$bssid_key}", "Counter64");
-
-                if (!isset($bytes_essid[$essid . ".tx"])) $bytes_essid[$essid . ".tx"] = 0;
-                if (!isset($bytes_essid[$essid . ".rx"])) $bytes_essid[$essid . ".rx"] = 0;
-                $bytes_essid[$essid . ".tx"] += $bytes_tx;
-                $bytes_essid[$essid . ".rx"] += $bytes_rx;
-
-                if (!isset($bytes_ap[$ap . ".total.tx"])) $bytes_ap[$ap . ".total.tx"] = 0;
-                if (!isset($bytes_ap[$ap . ".total.rx"])) $bytes_ap[$ap . ".total.rx"] = 0;
-                $bytes_ap[$ap . ".total.tx"] += $bytes_tx;
-                $bytes_ap[$ap . ".total.rx"] += $bytes_rx;
-
-                if (!isset($bytes_radio[$ap . "." . $radio_type . ".total.tx"])) $bytes_radio[$ap . "." . $radio_type . ".total.tx"] = 0;
-                if (!isset($bytes_radio[$ap . "." . $radio_type . ".total.rx"])) $bytes_radio[$ap . "." . $radio_type . ".total.rx"] = 0;
-                $bytes_radio[$ap . "." . $radio_type . ".total.tx"] += $bytes_tx;
-                $bytes_radio[$ap . "." . $radio_type . ".total.rx"] += $bytes_rx;
-
-                if (!isset($bytes_radio_type[$radio_type . ".rx"])) $bytes_radio_type[$radio_type . ".rx"] = 0;
-                if (!isset($bytes_radio_type[$radio_type . ".tx"])) $bytes_radio_type[$radio_type . ".tx"] = 0;
-                $bytes_radio_type[$radio_type . ".rx"] += $bytes_rx;
-                $bytes_radio_type[$radio_type . ".tx"] += $bytes_tx;
-
-                $bytes_radio_essid[$ap . "." . $radio_type . "." . $essid . ".tx"] = $bytes_tx;
-                $bytes_radio_essid[$ap . "." . $radio_type . "." . $essid . ".rx"] = $bytes_rx;
-
-        }
-
-        $assoc_a = array ("assoc_essid" => "essid", "assoc_ap" => "ap", "assoc_radio" => "ap", "assoc_radio_essid" => "ap", "assoc_radio_type" => "band");
-        foreach ($assoc_a as $type => $prefix) {
-                foreach ($$type as $key => $value) {
-                        sendGraphite("assoc.{$prefix}.{$key}", $value);
-                }
-        }
-
-        $bytes_a = array ("bytes_essid" => "essid", "bytes_ap" => "ap", "bytes_radio" => "ap", "bytes_radio_essid" => "ap", "bytes_radio_type" => "band");
->>>>>>> FETCH_HEAD
         foreach ($bytes_a as $type => $prefix) {
                 foreach ($$type as $key => $value) {
                         sendGraphite("bytes.{$prefix}.{$key}", $value);
