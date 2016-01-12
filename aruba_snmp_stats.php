@@ -7,6 +7,8 @@
 include("common.php");
 include("config.php");
 
+if ($graphite_send) $fsock = fsockopen($graphite_ip, $graphite_port);
+
 foreach ($controllers as $c_name => $ip) {
 
 	/**

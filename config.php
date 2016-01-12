@@ -6,8 +6,6 @@ $graphite_ip = "127.0.0.1";
 $graphite_port = 2003;
 $graphite_prefix = "wlan.aruba.";
 
-if ($graphite_send) $fsock = fsockopen($graphite_ip, $graphite_port);
-
 // controller name => IP address
 $controllers = array (
         "aruba-master" => "a.b.c.d",
