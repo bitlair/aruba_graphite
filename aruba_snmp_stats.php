@@ -267,4 +267,6 @@ foreach ($controllers as $c_name => $ip) {
 
 	}
 }
+
+fclose($fsock);
 ?>

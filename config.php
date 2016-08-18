@@ -23,4 +23,10 @@ $snmp_base = 16;        // use 11 if your SNMP resolves OIDs
 // ssh username/password for CLI script
 $ssh_username = "###";
 $ssh_password = "###";
+
+// clearpass postgres database details
+$clearpass_host = "a.b.c.d";
+$clearpass_user = "appexternal";
+$clearpass_pass = "###";
+$clearpass_db = "tipsdb";
 ?>

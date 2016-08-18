@@ -1,0 +1,1 @@
+*/1 * * * * arjan /home/arjan/aruba/aruba_clearpass_stats.sh > /dev/null

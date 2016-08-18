@@ -1,1 +1,1 @@
-*/1 * * * * arjan /home/arjan/aruba_graphite/aruba_cli_stats.sh
+*/1 * * * * arjan /home/arjan/aruba/aruba_cli_stats.sh > /dev/null
