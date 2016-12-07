@@ -108,7 +108,7 @@ foreach ($controllers as $c_name => $ip) {
 	foreach ($_ap_name as $key => $ap_name) {
 		sendGraphite("ap.{$ap_name}.status", get_snmp("1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.19.{$key}", "INTEGER"));
 		sendGraphite("ap.{$ap_name}.num_bootstraps", get_snmp("1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.20.{$key}", "INTEGER"));
-		sendGraphite("ap.{$ap_name}.num_reboots", get_snmp("1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.20.{$key}", "INTEGER"));
+		sendGraphite("ap.{$ap_name}.num_reboots", get_snmp("1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.21.{$key}", "INTEGER"));
 	}
 
 
