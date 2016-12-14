@@ -1,1 +1,1 @@
-*/1 * * * * arjan /home/arjan/aruba_graphite/aruba_snmp_stats.sh
+*/1 * * * * arjan /home/arjan/aruba/aruba_snmp_stats.sh > /dev/null
