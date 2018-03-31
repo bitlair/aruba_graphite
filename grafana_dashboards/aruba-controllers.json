@@ -11,6 +11,24 @@
   ],
   "__requires": [
     {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "4.2.0"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "graphite",
+      "name": "Graphite",
+      "version": "1.0.0"
+    },
+    {
       "type": "panel",
       "id": "singlestat",
       "name": "Singlestat",
@@ -21,38 +39,21 @@
       "id": "table",
       "name": "Table",
       "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "3.1.1"
-    },
-    {
-      "type": "datasource",
-      "id": "graphite",
-      "name": "Graphite",
-      "version": "1.0.0"
     }
   ],
-  "id": null,
-  "title": "Aruba - Controllers",
-  "tags": [],
-  "style": "dark",
-  "timezone": "browser",
+  "annotations": {
+    "list": []
+  },
   "editable": true,
+  "gnetId": null,
+  "graphTooltip": 1,
   "hideControls": false,
-  "sharedCrosshair": true,
+  "id": null,
+  "links": [],
+  "refresh": "1m",
   "rows": [
     {
       "collapse": false,
-      "editable": true,
       "height": "100px",
       "panels": [
         {
@@ -77,7 +78,6 @@
           },
           "id": 2,
           "interval": null,
-          "isNew": true,
           "links": [],
           "mappingType": 1,
           "mappingTypes": [
@@ -153,7 +153,6 @@
           },
           "id": 10,
           "interval": null,
-          "isNew": true,
           "links": [],
           "mappingType": 1,
           "mappingTypes": [
@@ -229,7 +228,6 @@
           },
           "id": 7,
           "interval": null,
-          "isNew": true,
           "links": [],
           "mappingType": 1,
           "mappingTypes": [
@@ -304,7 +302,6 @@
           },
           "id": 8,
           "interval": null,
-          "isNew": true,
           "links": [],
           "mappingType": 1,
           "mappingTypes": [
@@ -363,11 +360,15 @@
           "valueName": "current"
         }
       ],
-      "title": "New row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "New row",
+      "titleSize": "h6"
     },
     {
       "collapse": false,
-      "editable": true,
       "height": "300px",
       "panels": [
         {
@@ -383,18 +384,19 @@
           ],
           "editable": true,
           "error": false,
+          "filterNull": false,
           "fontSize": "100%",
+          "hideTimeOverride": true,
           "id": 13,
-          "isNew": true,
           "links": [],
           "pageSize": 5,
           "scroll": true,
           "showHeader": true,
           "sort": {
-            "col": 1,
+            "col": 2,
             "desc": true
           },
-          "span": 4,
+          "span": 3,
           "styles": [
             {
               "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -420,12 +422,12 @@
           ],
           "targets": [
             {
-              "refId": "A",
-              "target": "aliasByNode(wlan.aruba.$controller.assoc.ap.*.total, 5)"
+              "refId": "B",
+              "target": "aliasByNode(averageAbove(wlan.aruba.$controller.assoc.ap.*.5ghz.total, 0), 5)"
             }
           ],
-          "timeFrom": "60m",
-          "title": "Top APs by Station Count",
+          "timeFrom": "5m",
+          "title": "Top APs by Station Count (5GHz)",
           "transform": "timeseries_aggregations",
           "type": "table"
         },
@@ -442,18 +444,19 @@
           ],
           "editable": true,
           "error": false,
+          "filterNull": false,
           "fontSize": "100%",
+          "hideTimeOverride": true,
           "id": 14,
-          "isNew": true,
           "links": [],
           "pageSize": 5,
           "scroll": true,
           "showHeader": true,
           "sort": {
-            "col": 1,
+            "col": 2,
             "desc": true
           },
-          "span": 4,
+          "span": 3,
           "styles": [
             {
               "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -480,11 +483,11 @@
           "targets": [
             {
               "refId": "A",
-              "target": "aliasByNode(wlan.aruba.$controller.radio.*.5ghz.util, 4)"
+              "target": "aliasByNode(averageAbove(wlan.aruba.$controller.radio.*.5ghz.util, 0), 4)"
             }
           ],
-          "timeFrom": "60m",
-          "title": "Top APs by Ch Utilsation (5GHz)",
+          "timeFrom": "5m",
+          "title": "Top APs by Ch Utilisation (5GHz)",
           "transform": "timeseries_aggregations",
           "type": "table"
         },
@@ -501,18 +504,79 @@
           ],
           "editable": true,
           "error": false,
+          "filterNull": false,
           "fontSize": "100%",
-          "id": 15,
-          "isNew": true,
+          "hideTimeOverride": true,
+          "id": 18,
           "links": [],
           "pageSize": 5,
           "scroll": true,
           "showHeader": true,
           "sort": {
-            "col": 1,
+            "col": 2,
             "desc": true
           },
-          "span": 4,
+          "span": 3,
+          "styles": [
+            {
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "date"
+            },
+            {
+              "colorMode": "value",
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(245, 54, 54, 0.9)"
+              ],
+              "decimals": 0,
+              "pattern": "/.*/",
+              "thresholds": [
+                "80",
+                "100"
+              ],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "refId": "B",
+              "target": "aliasByNode(averageAbove(wlan.aruba.$controller.assoc.ap.*.2ghz.total, 0), 5)"
+            }
+          ],
+          "timeFrom": "5m",
+          "title": "Top APs by Station Count (2.4GHz)",
+          "transform": "timeseries_aggregations",
+          "type": "table"
+        },
+        {
+          "columns": [
+            {
+              "text": "Current",
+              "value": "current"
+            },
+            {
+              "text": "Avg",
+              "value": "avg"
+            }
+          ],
+          "editable": true,
+          "error": false,
+          "filterNull": false,
+          "fontSize": "100%",
+          "hideTimeOverride": true,
+          "id": 15,
+          "links": [],
+          "pageSize": 5,
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 2,
+            "desc": true
+          },
+          "span": 3,
           "styles": [
             {
               "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -539,20 +603,24 @@
           "targets": [
             {
               "refId": "A",
-              "target": "aliasByNode(wlan.aruba.$controller.radio.*.2ghz.util, 4)"
+              "target": "aliasByNode(averageAbove(wlan.aruba.$controller.radio.*.2ghz.util, 0), 4)"
             }
           ],
-          "timeFrom": "60m",
-          "title": "Top APs by Ch Utilsation (2.4GHz)",
+          "timeFrom": "5m",
+          "title": "Top APs by Ch Utilisation (2.4GHz)",
           "transform": "timeseries_aggregations",
           "type": "table"
         }
       ],
-      "title": "New row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "New row",
+      "titleSize": "h6"
     },
     {
       "collapse": false,
-      "editable": true,
       "height": "200px",
       "panels": [
         {
@@ -565,14 +633,8 @@
           "editable": true,
           "error": false,
           "fill": 3,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 1,
-          "isNew": true,
           "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -642,6 +704,7 @@
               "textEditor": false
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Wi-Fi Traffic",
@@ -653,7 +716,10 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -675,11 +741,15 @@
           ]
         }
       ],
-      "title": "Row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Row",
+      "titleSize": "h6"
     },
     {
       "collapse": false,
-      "editable": true,
       "height": "200px",
       "panels": [
         {
@@ -690,18 +760,12 @@
           },
           "bars": false,
           "datasource": "${DS_GRAPHITE}",
-          "decimals": 0,
+          "decimals": null,
           "editable": true,
           "error": false,
           "fill": 0,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 9,
-          "isNew": true,
           "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -744,6 +808,7 @@
               "target": "alias(wlan.aruba.$controller.total_assoc, 'Total')"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Stations per ESSID",
@@ -755,7 +820,10 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -763,7 +831,7 @@
               "label": "Stations",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -777,11 +845,15 @@
           ]
         }
       ],
-      "title": "New row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "New row",
+      "titleSize": "h6"
     },
     {
       "collapse": false,
-      "editable": true,
       "height": "200px",
       "panels": [
         {
@@ -792,14 +864,8 @@
           "editable": true,
           "error": false,
           "fill": 0,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 11,
-          "isNew": true,
           "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -819,7 +885,7 @@
           "linewidth": 1,
           "links": [],
           "minSpan": 3,
-          "nullPointMode": "null",
+          "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
@@ -831,9 +897,10 @@
           "targets": [
             {
               "refId": "A",
-              "target": "aliasByNode(currentAbove(highestCurrent(wlan.aruba.$controller.assoc.ap.*.5ghz.total, 20), 1), 5)"
+              "target": "aliasByNode(highestCurrent(wlan.aruba.$controller.assoc.ap.*.5ghz.total, 20), 5)"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Top 20 APs by Station Count (5GHz)",
@@ -845,7 +912,10 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -853,7 +923,7 @@
               "label": "Stations",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -874,14 +944,8 @@
           "editable": true,
           "error": false,
           "fill": 0,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 16,
-          "isNew": true,
           "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -901,7 +965,7 @@
           "linewidth": 1,
           "links": [],
           "minSpan": 3,
-          "nullPointMode": "null",
+          "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
@@ -913,9 +977,10 @@
           "targets": [
             {
               "refId": "A",
-              "target": "aliasByNode(currentAbove(highestCurrent(wlan.aruba.$controller.assoc.ap.*.2ghz.total, 20), 1), 5)"
+              "target": "aliasByNode(highestCurrent(wlan.aruba.$controller.assoc.ap.*.2ghz.total, 20), 5)"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Top 20 APs by Station Count (2.4GHz)",
@@ -927,7 +992,10 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -935,7 +1003,7 @@
               "label": "Stations",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -949,11 +1017,15 @@
           ]
         }
       ],
-      "title": "New row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "New row",
+      "titleSize": "h6"
     },
     {
       "collapse": false,
-      "editable": true,
       "height": "200px",
       "panels": [
         {
@@ -963,14 +1035,8 @@
           "editable": true,
           "error": false,
           "fill": 0,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 5,
-          "isNew": true,
           "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -981,6 +1047,7 @@
             "min": false,
             "rightSide": true,
             "show": true,
+            "sortDesc": true,
             "total": false,
             "values": true
           },
@@ -1002,6 +1069,7 @@
               "target": "aliasByNode(sortByName(wlan.aruba.$controller.radio.*.5ghz.channel, 'true'), 4)"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "AP Radio Channels (5GHz)",
@@ -1013,7 +1081,10 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -1042,14 +1113,8 @@
           "editable": true,
           "error": false,
           "fill": 0,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 6,
-          "isNew": true,
           "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -1081,6 +1146,7 @@
               "target": "aliasByNode(currentAbove(sortByName(wlan.aruba.$controller.radio.*.2ghz.channel, 'true'), 1), 4)"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "AP Radio Channels (2.4GHz)",
@@ -1092,7 +1158,10 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -1114,11 +1183,15 @@
           ]
         }
       ],
-      "title": "New row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "New row",
+      "titleSize": "h6"
     },
     {
       "collapse": false,
-      "editable": true,
       "height": "150px",
       "panels": [
         {
@@ -1128,14 +1201,8 @@
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 3,
-          "isNew": true,
           "legend": {
             "avg": true,
             "current": true,
@@ -1163,6 +1230,7 @@
               "target": "alias(wlan.aruba.$controller.datapath.sessions, 'Firewall Sessions')"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Aruba Controller - Firewall Sessions",
@@ -1174,7 +1242,10 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -1203,14 +1274,8 @@
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 4,
-          "isNew": true,
           "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -1229,7 +1294,7 @@
           "lines": true,
           "linewidth": 1,
           "links": [],
-          "nullPointMode": "null",
+          "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
@@ -1244,6 +1309,7 @@
               "target": "aliasByMetric(wlan.aruba.$controller.cpu_util.*)"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Aruba Controller - CPU",
@@ -1255,7 +1321,10 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -1283,14 +1352,8 @@
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 12,
-          "isNew": true,
           "legend": {
             "avg": true,
             "current": true,
@@ -1318,6 +1381,7 @@
               "target": "alias(wlan.aruba.$controller.memory_used, 'Memory Used')"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Aruba Controller - Memory Utilisation",
@@ -1329,7 +1393,10 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -1357,14 +1424,8 @@
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 17,
-          "isNew": true,
           "legend": {
             "avg": false,
             "current": false,
@@ -1392,6 +1453,7 @@
               "target": "alias(wlan.aruba.$controller.internal_temparature, 'Temperature')"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Aruba Controller - Internal Temperature",
@@ -1403,7 +1465,10 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -1425,14 +1490,47 @@
           ]
         }
       ],
-      "title": "New row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "New row",
+      "titleSize": "h6"
     }
   ],
+  "schemaVersion": 14,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_GRAPHITE}",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Controller",
+        "multi": false,
+        "name": "controller",
+        "options": [],
+        "query": "wlan.aruba.*",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
   "time": {
-    "from": "now-6h",
-    "to": "now"
+    "from": "now-3h",
+    "to": "now-1m"
   },
   "timepicker": {
+    "nowDelay": "1m",
     "refresh_intervals": [
       "5s",
       "10s",
@@ -1457,29 +1555,7 @@
       "30d"
     ]
   },
-  "templating": {
-    "list": [
-      {
-        "current": {},
-        "datasource": "${DS_GRAPHITE}",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Controller",
-        "multi": false,
-        "name": "controller",
-        "options": [],
-        "query": "wlan.aruba.*",
-        "refresh": 1,
-        "type": "query"
-      }
-    ]
-  },
-  "annotations": {
-    "list": []
-  },
-  "refresh": "1m",
-  "schemaVersion": 12,
-  "version": 58,
-  "links": [],
-  "gnetId": null
+  "timezone": "browser",
+  "title": "Aruba - Controllers",
+  "version": 90
 }
