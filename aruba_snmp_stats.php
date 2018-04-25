@@ -18,6 +18,9 @@ foreach ($controllers as $c_name => $ip) {
 	sendGraphite("total_assoc", get_snmp("1.3.6.1.4.1.14823.2.2.1.1.3.2.0"));
 	sendGraphite("cpu_used", get_snmp("1.3.6.1.4.1.14823.2.2.1.2.1.30.0"));
 	sendGraphite("memory_used", get_snmp("1.3.6.1.4.1.14823.2.2.1.2.1.31.0"));
+	sendGraphite("active_ha_ap", get_snmp("1.3.6.1.4.1.14823.2.2.1.20.1.2.1.1.0"));
+	sendGraphite("standby_ha_ap", get_snmp("1.3.6.1.4.1.14823.2.2.1.20.1.2.1.2.0"));
+	sendGraphite("total_ha_ap", get_snmp("1.3.6.1.4.1.14823.2.2.1.20.1.2.1.3.0"));
 
 	/**
 	 * CPU util
